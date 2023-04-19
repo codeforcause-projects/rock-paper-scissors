@@ -1,24 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
+import { Box } from "@mui/material";
+import "./App.css";
+import { useSelector } from "react-redux";
+import HandGesture from "./components/HandGesture";
+import ActionBox from "./components/ActionBox";
+import HandText from "./components/HandText";
+import Score from "./components/Score";
 
 function App() {
+  const { computerHand, playerHand, computerScore, playerScore } = useSelector(
+    (state) => state.game
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <Box sx={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      width: "100vw",
+      height: "100vh",
+      backgroundColor: "grey.100",
+    }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          width: { xs: "100vw", md: "50vw" },
+          height: "100vh",
+        }}
+      >
+        <HandGesture
+          playerGesture={playerHand.symbol}
+          computerGesture={computerHand.symbol}
+        />
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            flexGrow: 1,
+          }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <Score playerScore={playerScore} computerScore={computerScore} />
+          <HandText
+            playerText={playerHand.value}
+            computerText={computerHand.value}
+          />
+        </Box>
+
+        <ActionBox />
+      </Box>
+    </Box>
   );
 }
 
